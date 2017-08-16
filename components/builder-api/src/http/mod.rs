@@ -39,6 +39,7 @@ const HTTP_THREAD_COUNT: usize = 128;
 /// Create a new `iron::Chain` containing a Router and it's required middleware
 pub fn router(config: Arc<Config>) -> Result<Chain> {
     let basic = Authenticated::new(&*config);
+
     let router =
         router!(
         status: get "/status" => status,

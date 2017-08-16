@@ -43,6 +43,7 @@ lazy_static! {
 pub mod box_key_pair;
 pub mod sym_key;
 pub mod sig_key_pair;
+pub mod sealed_box;
 
 enum KeyType {
     Sig,
