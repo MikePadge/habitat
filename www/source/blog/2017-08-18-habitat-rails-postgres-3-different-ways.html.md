@@ -1,4 +1,4 @@
-e--
+---
 title: Habitat, Rails, and Postgres in 3 Different Ways
 date: 2017-08-18
 author: Nell Shamrell-Harrington
