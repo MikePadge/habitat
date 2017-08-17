@@ -169,14 +169,14 @@ $ docker-compose up
 Whoops!  You will see this error:
 
 ```
-railsapp_1  | widet_world.default hook[init]:(HK): There are 3 remaining config settings which must be set correctly:
-railsapp_1  | widet_world.default hook[init]:(HK):
-railsapp_1  | widet_world.default hook[init]:(HK):  * db.user      - The database username (Current: admin)
-railsapp_1  | widet_world.default hook[init]:(HK):  * db.password  - The database password (Current: <set>)
-railsapp_1  | widet_world.default hook[init]:(HK):  * db.name      - The database name (Current: widet_world_production)
-railsapp_1  | widet_world.default hook[init]:(HK):
-railsapp_1  | widet_world.default hook[init]:(HK): Aborting...
-railsapp_1  | widet_world.default(HK): Initialization failed! 'init' exited with status code 15
+railsapp_1  | widget_world.default hook[init]:(HK): There are 3 remaining config settings which must be set correctly:
+railsapp_1  | widget_world.default hook[init]:(HK):
+railsapp_1  | widget_world.default hook[init]:(HK):  * db.user      - The database username (Current: admin)
+railsapp_1  | widget_world.default hook[init]:(HK):  * db.password  - The database password (Current: <set>)
+railsapp_1  | widget_world.default hook[init]:(HK):  * db.name      - The database name (Current: widet_world_production)
+railsapp_1  | widget_world.default hook[init]:(HK):
+railsapp_1  | widget_world.default hook[init]:(HK): Aborting...
+railsapp_1  | widget_world.default(HK): Initialization failed! 'init' exited with status code 15
 ```
 
 To fix this, we need to set up the database.  Currently, the ruby scaffolding does not automatically set up the database for you, this still needs to be done manually.
@@ -249,7 +249,7 @@ $ docker ps
 Now, execute the database setup on that container with:
 
 ```bash
-$ docker exec -it container_id widget_work-rake db:setup
+$ docker exec -it container_id widget_world-rake db:setup
 ```
 
 Once this runs, head back to your browser, navigate to localhost:8000/widgets and check out your app - even though the app is in a container, it's database is an RDS instance.
@@ -383,12 +383,16 @@ $ docker ps
 Now, execute the database setup on that container with:
 
 ```bash
-$ docker exec -it container_id widget_work-rake db:setup
+$ docker exec -it container_id widget_world-rake db:setup
 ```
 
 (This runs the setup and migrations on your postgresql cluster)
 
 Once this runs, head back to your browser, navigate to localhost:8000/widgets and check out your app - now using your own postgresql database cluster!
+
+## Changing the database password
+
+TODO
 
 ## Conclusion
 
