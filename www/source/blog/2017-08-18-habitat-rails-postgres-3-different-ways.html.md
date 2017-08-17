@@ -60,7 +60,7 @@ Now let's package up this application with Habitat!
 
 We're going to use the Ruby scaffolding included with Habitat! To get this started, go ahead and run:
 
-``bash
+```bash
 $ hab plan init -s ruby
 ```
 
