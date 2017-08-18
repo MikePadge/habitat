@@ -4,7 +4,7 @@ title: Habitat documentation
 
 # Habitat documentation
 
-Habitat centers application configuration, management, and behavior around the application itself, not the infrastructure that the app runs on. It provides automation to programmatically and declaratively build, run, and manage your appliation and services, both stateful and stateless. Habitat can be deployed and run on various infrastructure environments, such as bare metal, VM, containers, and PaaS.
+Habitat centers application configuration, management, and behavior around the application itself, not the infrastructure that the app runs on. It provides automation to programmatically and declaratively build, run, and manage your application and services, both stateful and stateless. Habitat can be deployed and run on various infrastructure environments, such as bare metal, VM, containers, and PaaS.
 
 The Habitat documentation is broken out into the following sections:
 
