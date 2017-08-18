@@ -30,14 +30,16 @@ $ vim Gemfile
 
 Navigate to this line
 
-Gemfile
+**Gemfile**
+
 ```
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 ```
 
 And remove the platforms so it looks like this
 
-Gemfile
+**Gemfile**
+
 ```
 gem 'tzinfo-data'
 ```
@@ -66,7 +68,8 @@ $ hab plan init -s ruby
 
 This will generate a habitat directory, including a new plan.sh file.  Let's take a look at this file.
 
-habitat/plan.sh
+**habitat/plan.sh**
+
 ```
 pkg_name=widget_world
 pkg_origin=your_origin
@@ -75,7 +78,8 @@ pkg_scaffolding="core/scaffolding-ruby"
 
 Now add this content
 
-habitat/plan.sh
+**habitat/plan.sh**
+
 ```
 pkg_name=widget_world
 pkg_origin=your_origin
@@ -98,7 +102,8 @@ Now, we need to provide that value to our package. Open up the habitat/default.t
 $ vim habitat/default.toml
 ```
 
-habitat/default.toml
+**habitat/default.toml**
+
 ```
 secret_key_base = "secret_key_you_just_generated"
 
@@ -121,6 +126,7 @@ $ hab studio enter
 ## Running the application and database in Docker containers
 
 Since we're running our rails application in a docker container, let's export our package as a docker image.
+
 ```console
 (studio) $ hab pkg export docker originname/widget_world
 ```
@@ -130,7 +136,9 @@ And we are going to be running the postgresql database in another container usin
 ```console
 (studio) $ hab pkg export docker core/postgresql
 ```
+
 Now let's exit out of the studio:
+
 ```console
 (studio) $ exit
 ```
@@ -143,7 +151,8 @@ $ vim docker-compose.yml
 
 And add in this content:
 
-docker-compose.yml
+**docker-compose.yml**
+
 ```
 version: '3'
 services:
@@ -168,7 +177,7 @@ $ docker-compose up
 
 Whoops!  You will see this error:
 
-```
+```console
 railsapp_1  | widget_world.default hook[init]:(HK): There are 3 remaining config settings which must be set correctly:
 railsapp_1  | widget_world.default hook[init]:(HK):
 railsapp_1  | widget_world.default hook[init]:(HK):  * db.user      - The database username (Current: admin)
@@ -187,7 +196,7 @@ To fix this, we need to set up the database.  Currently, the ruby scaffolding do
 
 And now we have a running Rails app and database running in Docker containers!  Head on over to https://localhost:8000/widgets to check it out!
 
-This is a great and quickly satisfying demo...but it's not a great idea to run a database in a container.  Running a data base in a container locks you into the host for that container, and you lose a good deal of the portability benefits of containers.  Let's keep running the Rails app in a container, but look at running the database for the app somewhere else.
+This is a great and quickly satisfying demo...but it's not a great idea to run a database in a container.  Running a database in a container locks you into the host for that container, and you lose a good deal of the portability benefits of containers.  Let's keep running the Rails app in a container, but look at running the database for the app somewhere else.
 
 Go ahead and shut down and remove both containers and let's try something different.
 
@@ -198,6 +207,7 @@ Cloud database services like Amazon RDS are quick and easy to use.  Let's spin u
 Although you can spin up an RDS instance using the Amazon cli, I often find it easiest to use the web GUI.
 
 Go ahead and set up a basic postgres cluster using RDS.  Default values are fine, but make sure to note of what you set these two values as
+
 * database username
 * database password
 
@@ -213,7 +223,8 @@ $ vim habitat/default.toml
 
 And modify it so that the db.user matches the username you set for your RDS instance and the db.password matches the password you set for your RDS instance.  Than add in on more attribute - db.hostname.  Set that to the endpoint for your RDS instance (you can get this from the AWS GUI or cli).  Do not include the port number in the endpoint. (i.e. it should be "https://my_endpoint" not "https://my_endpoint:5432")
 
-habitat/default.toml
+**habitat/default.toml**
+
 ```
 secret_key_base = "secret_key_you_generated_earlier"
 
@@ -296,8 +307,6 @@ $ aws ec2 authorize-security-group-ingress --group-name habitat-postgres-cluster
 Now, let's create three virtual machines.  In the following examples, I am creating them in the AWS N. Virgina reason using an Ubuntu AMI.  If you create your virtual machines in a different region, you will need to substitute in the appropriate AMI.
 
 ```console
-$ aws ec2 run-instances --image-id ami-cd0f5cb6 --security-group-ids your_security_group_id --count 3 --instance-type t2.medium --key-name your-key-name --query 'Instances[*].InstanceId'
-
 $ aws ec2 run-instances --image-id ami-cd0f5cb6 --security-group-ids your_security_group_id --count 3 --instance-type t2.medium --key-name your-key-name --query 'Instances[*].{ID:InstanceId,PublicIp:PublicIpAddress,PrivateIp:PrivateIpAddress'
 ```
 
@@ -320,6 +329,7 @@ $ sudo hab start core/postgresql --topology leader --group production
 ```
 
 Then, in each of the other two instances, run this command
+
 ```console
 $ sudo hab start core/postgresql --topology leader --group production --peer first_instance_public_ip_address
 ```
@@ -346,8 +356,9 @@ And then copy the public IP of that instance.  Now let's get this information in
 
 Open up your habitat/default.toml file and replace the value for the "host" key with that public ip address (it does need to be the public ip of the leader in order to work).
 
-habitat/default.toml
-```console
+**habitat/default.toml**
+
+```
 secret_key_base = "secret_key_you_generated_earlier"
 
 rails_env = 'production'
